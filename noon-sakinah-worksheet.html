@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ورقة عمل: أحكام النون الساكنة والتنوين</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2F5F8; --surface:#FFFFFF; --ink:#182036; --muted:#566079; --line:#D8DFE8; --soft:#E9EEF4;
+  --izhar:#0E7C86; --idghamG:#2E8B57; --idghamN:#A06A00; --iqlab:#2E5FAE; --ikhfa:#B4447C;
+  --ok:#1F7A45; --bad:#B3372F; --on:#FFFFFF;
+  --font-body:'IBM Plex Sans Arabic','Segoe UI',Tahoma,'Noto Naskh Arabic',sans-serif;
+  --font-quran:'Amiri','Traditional Arabic','Noto Naskh Arabic',serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#111726; --surface:#1A2236; --ink:#EAF0FA; --muted:#A3AEC5; --line:#2D3850; --soft:#232D44;
+    --izhar:#4FC3CD; --idghamG:#5CC58A; --idghamN:#E0AE47; --iqlab:#7BA6EE; --ikhfa:#E27DAE;
+    --ok:#5CC58A; --bad:#F08A82; --on:#0F1524;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111726; --surface:#1A2236; --ink:#EAF0FA; --muted:#A3AEC5; --line:#2D3850; --soft:#232D44;
+  --izhar:#4FC3CD; --idghamG:#5CC58A; --idghamN:#E0AE47; --iqlab:#7BA6EE; --ikhfa:#E27DAE;
+  --ok:#5CC58A; --bad:#F08A82; --on:#0F1524;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);line-height:1.75;font-size:1rem}
+.wrap{max-width:860px;margin:0 auto;padding:22px 16px 64px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--iqlab);outline-offset:2px}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* رأس الصفحة */
+.top h1{font-family:var(--font-quran);font-weight:700;font-size:clamp(2.1rem,6.5vw,3.3rem);line-height:1.3;margin:6px 0 6px}
+.top .sub{margin:0;color:var(--muted);max-width:56ch}
+
+/* مختبر الحروف */
+.lab{margin-top:24px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px;--c:var(--iqlab)}
+.lab-q{margin:0 0 14px;font-weight:600}
+.stage{display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;margin-bottom:20px}
+.pair{display:flex;align-items:center;gap:14px;font-family:var(--font-quran);font-size:clamp(3rem,10vw,4.6rem);line-height:1.2;padding:8px 22px;background:var(--soft);border-radius:18px}
+.pair .plus{font-family:var(--font-body);font-size:1.4rem;color:var(--muted)}
+.pair .l{color:var(--c);font-weight:700}
+.verdict h3{font-family:var(--font-quran);font-size:clamp(1.7rem,4.5vw,2.3rem);line-height:1.3;margin:0 0 2px;color:var(--c)}
+.verdict p{margin:2px 0;color:var(--ink)}
+.verdict .note{color:var(--muted);font-size:.92rem}
+.examples{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.ex{font-family:var(--font-quran);font-size:1.45rem;line-height:1.8;background:var(--soft);padding:0 14px;border-radius:10px}
+.keys{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:8px}
+.key{font-family:var(--font-quran);font-size:1.7rem;line-height:1;height:54px;border-radius:12px;border:2px solid var(--kc);background:transparent;color:var(--kc);cursor:pointer;font-weight:700}
+.key[aria-pressed="true"]{background:var(--kc);color:var(--on)}
+.key.g-izhar{--kc:var(--izhar)} .key.g-idghamG{--kc:var(--idghamG)} .key.g-idghamN{--kc:var(--idghamN)} .key.g-iqlab{--kc:var(--iqlab)} .key.g-ikhfa{--kc:var(--ikhfa)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin:16px 0 0;padding:0;list-style:none;font-size:.9rem;color:var(--muted)}
+.legend li{display:flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:4px;background:var(--kc);display:inline-block}
+
+/* تبويبات المستويات */
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:32px 0 6px;scroll-margin-top:12px}
+.tab{text-align:start;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer;display:flex;flex-direction:column;gap:2px}
+.tab .lv{font-size:.82rem;color:var(--muted)}
+.tab .tn{font-weight:600;font-size:1.05rem}
+.tab .ts{font-size:.82rem;color:var(--muted);line-height:1.45;min-height:2.4em}
+.tab .meter{display:flex;align-items:center;gap:8px;margin-top:6px}
+.tab .bar{flex:1;height:6px;border-radius:99px;background:var(--soft);overflow:hidden}
+.tab .bar i{display:block;height:100%;width:0;background:var(--ink)}
+.tab .cnt{font-size:.8rem;color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.tab[aria-selected="true"] .lv,.tab[aria-selected="true"] .ts,.tab[aria-selected="true"] .cnt{color:inherit;opacity:.85}
+.tab[aria-selected="true"] .bar{background:rgba(127,127,127,.35)}
+.tab[aria-selected="true"] .bar i{background:var(--paper)}
+@media (prefers-reduced-motion:no-preference){.tab .bar i{transition:width .35s ease}}
+
+/* اللوحات */
+.panel{margin-top:14px}
+.intro{display:flex;flex-wrap:wrap;gap:6px 20px;align-items:baseline;justify-content:space-between;padding:4px 2px 6px}
+.intro p{margin:0}
+.score{color:var(--muted);font-size:.95rem}
+.score strong{color:var(--ink)}
+.sec{font-family:var(--font-quran);font-size:1.6rem;margin:30px 0 4px;line-height:1.4}
+.guide{background:var(--soft);border-radius:16px;padding:14px 20px;margin-top:12px}
+.guide h3{margin:0 0 4px;font-size:1.05rem}
+.guide ol{margin:0;padding-inline-start:22px}
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:16px;margin-top:12px;padding:4px 16px}
+.sheet summary{cursor:pointer;font-weight:600;padding:10px 0}
+.srows{display:grid;gap:8px;padding:2px 0 14px}
+.srow{display:grid;grid-template-columns:8.5rem 1fr;gap:4px 14px;align-items:baseline;padding:8px 0;border-top:1px solid var(--line)}
+.srow .badge{color:var(--c);font-weight:600}
+.srow .lt{font-family:var(--font-quran);font-size:1.5rem;color:var(--c);letter-spacing:.06em}
+.srow .mn{grid-column:2;color:var(--muted);font-size:.9rem}
+
+.q{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:14px}
+.qhead{display:flex;gap:12px;align-items:flex-start}
+.qn{flex:none;width:32px;height:32px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-weight:600;font-size:.95rem}
+.stem{margin:2px 0 0;font-weight:500}
+.qs{font-family:var(--font-quran);font-size:1.3rem}
+.quran{font-family:var(--font-quran);font-size:clamp(1.7rem,5vw,2.1rem);line-height:2;margin:8px 0}
+.hit.mark{border-bottom:3px solid currentColor;padding-bottom:1px}
+.solved .hit{color:var(--c);border-bottom:3px solid var(--c);font-weight:700}
+.src{color:var(--muted);font-size:.85rem;margin:0}
+
+.opts{display:grid;gap:8px;margin-top:12px}
+.opt{text-align:start;padding:11px 14px;min-height:48px;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt:disabled:not(.correct):not(.wrong){opacity:.5;cursor:default}
+.opt.correct{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,var(--surface))}
+.opt.correct::after{content:"✓";color:var(--ok);font-weight:700}
+.opt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 10%,var(--surface));cursor:default}
+.opt.wrong::after{content:"✕";color:var(--bad);font-weight:700}
+
+.rows{margin-top:6px}
+.row{padding:12px 0 14px;border-top:1px solid var(--line);--c:var(--ink)}
+.row:first-child{border-top:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:8px 15px;min-height:44px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);cursor:pointer}
+.chip:hover:not(:disabled){border-color:var(--ink)}
+.chip:disabled:not(.correct):not(.wrong){opacity:.45;cursor:default}
+.chip.wrong{border-color:var(--bad);color:var(--bad);text-decoration:line-through;cursor:default}
+.chip.correct{background:var(--c);border-color:var(--c);color:var(--on);font-weight:600}
+
+.linkbtn{background:none;border:0;padding:6px 0;color:var(--iqlab);cursor:pointer;text-decoration:underline;text-underline-offset:3px;min-height:36px}
+.hint{margin:4px 0 0;padding:8px 12px;background:var(--soft);border-radius:10px;font-size:.95rem}
+.fb{margin:8px 0 0;font-size:.95rem;min-height:0}
+.fb:empty{display:none}
+.fb.ok{color:var(--ok)} .fb.ok strong{color:var(--ok)}
+.fb.ok span{color:var(--ink)}
+.fb.no{color:var(--bad)}
+
+textarea.ans{width:100%;margin-top:12px;min-height:110px;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;resize:vertical}
+.btn{margin-top:10px;padding:10px 20px;min-height:44px;border-radius:12px;border:0;background:var(--ink);color:var(--paper);font-weight:600;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--muted);border:1.5px solid var(--line);font-weight:500}
+.model{margin-top:12px;padding:12px 16px;border-inline-start:4px solid var(--ok);background:var(--soft);border-radius:10px}
+.model h4{margin:0 0 4px;font-size:1rem}
+.model p,.model ul{margin:4px 0}
+.model ul{padding-inline-start:20px}
+.finish{margin-top:22px;padding:18px;border-radius:16px;background:color-mix(in srgb,var(--ok) 13%,var(--surface));border:1.5px solid var(--ok)}
+.finish p{margin:0 0 4px;font-weight:600}
+.foot{margin-top:18px}
+
+.teacher{margin-top:40px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:6px 18px}
+.teacher summary{cursor:pointer;font-weight:600;padding:10px 0}
+.teacher ul{margin:0 0 12px;padding-inline-start:20px;color:var(--muted)}
+.teacher li{margin:4px 0}
+
+@media (max-width:640px){
+  .levels{grid-template-columns:1fr}
+  .stage{grid-template-columns:1fr;gap:16px}
+  .pair{justify-self:start}
+  .srow{grid-template-columns:1fr}
+  .srow .mn{grid-column:1}
+  .lab{padding:16px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <h1>أحكام النون الساكنة والتنوين</h1>
+    <p class="sub">التربية الإسلامية للصف الثامن. جرّب أولًا، ثم اختر المستوى الذي يناسبك وابدأ العمل.</p>
+  </header>
+
+  <section class="lab" id="lab" aria-labelledby="labq">
+    <p class="lab-q" id="labq">اختر الحرف الذي يأتي بعد النون الساكنة أو التنوين، وشاهد حكمه:</p>
+    <div class="stage">
+      <div class="pair" aria-hidden="true"><span>نْ</span><span class="plus">+</span><span class="l" id="chosen">ب</span></div>
+      <div class="verdict" id="verdict" aria-live="polite"></div>
+    </div>
+    <div class="keys" id="keys" role="group" aria-label="حروف الهجاء"></div>
+    <ul class="legend" id="legend"></ul>
+  </section>
+
+  <nav class="levels" id="levels" role="tablist" aria-label="مستويات ورقة العمل"></nav>
+  <div id="panels"></div>
+
+  <details class="teacher">
+    <summary>ملاحظات للمعلم</summary>
+    <ul>
+      <li>المستوى الأول (أبني الأساس): يعالج المفاهيم الأساسية، ويضع خطًّا تحت النون أو التنوين في الأمثلة، ويعرض ورقة الحروف، وتظهر التلميحات تلقائيًا بعد الإجابة الخاطئة.</li>
+      <li>المستوى الثاني (أُطبّق): أمثلة قرآنية دون تعليم موضع النون، مع التفريق بين نوعَي الإدغام، والتلميحات اختيارية.</li>
+      <li>المستوى الثالث (أتحدّى): تحليل مواضع من سورة الزلزلة، وأسئلة تعليل واستثناءات (الإظهار المطلق، والنون المشدّدة)، وسؤالان مقاليان يقارن الطالب إجابتهما بنموذج.</li>
+      <li>يحصل الطالب على تغذية راجعة فورية، ويمكنه الانتقال بين المستويات في أي وقت. يُفضَّل أن توجّهه إلى المستوى المناسب أولًا، ثم تدعوه إلى المستوى التالي بعد إتمامه.</li>
+    </ul>
+  </details>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+var AD='٠١٢٣٤٥٦٧٨٩';
+function num(n){return String(n).replace(/\d/g,function(d){return AD[d];});}
+function $(s,r){return (r||document).querySelector(s);}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+
+/* ---------- بيانات الأحكام ---------- */
+var ORDER=['izhar','idghamG','idghamN','iqlab','ikhfa'];
+var RULES={
+  izhar:{name:'الإظهار', letters:'ء ه ع ح غ خ',
+    mn:'أول حرف من كل كلمة: أَخِي هَاكَ عِلْمًا حَازَهُ غَيْرُ خَاسِرٍ',
+    how:'ننطق النون من مخرجها واضحة من غير غنة، لأن الحرف الذي بعدها يخرج من الحلق.',
+    note:'يسمى الإظهار الحلقي، وحروفه ستة.',
+    ex:[['مِ','نْ',' هَادٍ'],['عَلِي','مٌ',' حَكِيمٌ']]},
+  idghamG:{name:'إدغام بغنة', letters:'ي ن م و',
+    mn:'الحروف التي فيها غنة مجموعة في كلمة: يَنْمُو',
+    how:'ندخل النون في الحرف الذي بعدها، فيصيران حرفًا واحدًا مشدّدًا مع غنة.',
+    note:'شرطه أن تكون النون والحرف في كلمتين، وإلا كان إظهارًا مطلقًا مثل: دُنْيَا.',
+    ex:[['مَ','نْ',' يَقُولُ'],['مِ','نْ',' مَاءٍ']]},
+  idghamN:{name:'إدغام بغير غنة', letters:'ل ر',
+    mn:'اللام والراء فقط، وهما من حروف يَرْمَلُونَ',
+    how:'ندخل النون في اللام أو الراء دون غنة، فيصيران حرفًا واحدًا مشدّدًا.',
+    note:'شرطه أن تكون النون والحرف في كلمتين.',
+    ex:[['مِ','نْ',' رَبِّهِمْ'],['هُ','دً','ى لِلْمُتَّقِينَ']]},
+  iqlab:{name:'إقلاب', letters:'ب',
+    mn:'حرف واحد هو الباء',
+    how:'نقلب النون أو التنوين ميمًا، ثم نخفيها عند الباء مع غنة.',
+    note:'',
+    ex:[['مِ','نْ',' بَعْدِ'],['سَمِي','عٌ',' بَصِيرٌ']]},
+  ikhfa:{name:'إخفاء', letters:'ت ث ج د ذ ز س ش ص ض ط ظ ف ق ك',
+    mn:'أول حرف من كل كلمة: صِفْ ذَا ثَنَا كَمْ جَادَ شَخْصٌ قَدْ سَمَا دُمْ طَيِّبًا زِدْ فِي تُقًى ضَعْ ظَالِمَا',
+    how:'ننطق النون بصفة بين الإظهار والإدغام: ليست واضحة تمامًا ولا مدغمة، مع غنة.',
+    note:'حروفه خمسة عشر، وهي ما بقي من حروف الهجاء.',
+    ex:[['مِ','نْ',' قَبْلُ'],['قَوْ','لًا',' سَدِيدًا']]}
+};
+var LETTERS='ء ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن ه و ي'.split(' ');
+var LETTER_RULE={};
+ORDER.forEach(function(k){RULES[k].letters.split(' ').forEach(function(l){LETTER_RULE[l]=k;});});
+
+var OPT4=[{key:'izhar',label:'الإظهار'},{key:'idghamG',label:'الإدغام'},{key:'iqlab',label:'الإقلاب'},{key:'ikhfa',label:'الإخفاء'}];
+var OPT5=[{key:'izhar',label:'إظهار'},{key:'idghamG',label:'إدغام بغنة'},{key:'idghamN',label:'إدغام بغير غنة'},{key:'iqlab',label:'إقلاب'},{key:'ikhfa',label:'إخفاء'}];
+
+/* ---------- المستويات ---------- */
+var LEVELS=[
+{
+  tab:'المستوى ١', name:'أبني الأساس', sub:'أمثلة مُعلَّمة، وتلميحات تظهر بعد الخطأ',
+  intro:'نتعلّم معًا خطوة بخطوة. النون والتنوين مُعلَّمان في الأمثلة، وورقة الحروف أمامك دائمًا.',
+  blocks:[
+    {t:'guide'},
+    {t:'sheet',open:true},
+    {t:'h',text:'أتعرّف على الأساسيات'},
+    {t:'choice',stem:'التنوين هو:',
+      options:['حرف مدّ يأتي بعد الفتحة','نون ساكنة تلحق آخر الاسم؛ تُنطق ولا تُكتب','علامة تدل على الوقف','نون متحركة في أول الكلمة'],
+      answer:1,hint:'التنوين ضمّتان أو فتحتان أو كسرتان في آخر الاسم، وننطق معهما صوت النون.',
+      explain:'التنوين نون ساكنة زائدة؛ نسمعها ولا نكتبها. مثال: <span class="qs">عَلِيمٌ</span> نقرؤها «عَلِيمُنْ».'},
+    {t:'choice',stem:'أيّ هذه الحروف من حروف الإظهار؟',
+      options:[{q:'ب'},{q:'ع'},{q:'ر'},{q:'ك'}],
+      answer:1,hint:'حروف الإظهار هي أوائل كلمات: أَخِي هَاكَ عِلْمًا حَازَهُ غَيْرُ خَاسِرٍ.',
+      explain:'العين من حروف الإظهار الستة: ء ه ع ح غ خ، وكلها تخرج من الحلق.'},
+    {t:'choice',stem:'حروف الإدغام مجموعة في كلمة:',
+      options:[{q:'أَخِي هَاكَ'},{q:'صِفْ ذَا'},{q:'يَرْمَلُونَ'},'حرف الباء'],
+      answer:2,hint:'حروف الإدغام ستة: ي ر م ل و ن.',
+      explain:'حروف الإدغام هي (يَرْمَلُونَ)، ويكون الإدغام فيها إذا جاءت النون والحرف في كلمتين.'},
+    {t:'h',text:'أُصنّف الكلمات'},
+    {t:'classify',stem:'حدّد حكم النون الساكنة أو التنوين في كل كلمة. النون أو التنوين تحته خط.',options:OPT4,
+      items:[
+        {parts:['مِ','نْ',' هَادٍ'],ans:'izhar',hint:'الحرف بعد النون هو الهاء. ابحث عنه في ورقة الحروف.',why:'بعد النون هاء، وهي من حروف الإظهار.'},
+        {parts:['مِ','نْ',' بَعْدِ'],ans:'iqlab',hint:'الحرف بعد النون هو الباء، وله حكم خاص به وحده.',why:'بعد النون باء، فنقلب النون ميمًا ونخفيها مع الغنة.'},
+        {parts:['مِ','نْ',' قَبْلُ'],ans:'ikhfa',hint:'الحرف بعد النون هو القاف. ابحث عنه في أوائل كلمات: صِفْ ذَا ثَنَا…',why:'بعد النون قاف، وهي من حروف الإخفاء الخمسة عشر.'},
+        {parts:['مَ','نْ',' يَقُولُ'],ans:'idghamG',hint:'الحرف بعد النون هو الياء، وهي أول حروف (يَرْمَلُونَ).',why:'بعد النون ياء في كلمة مستقلة، فنُدغم النون فيها مع الغنة.'}
+      ]},
+    {t:'h',text:'أختم بسؤال'},
+    {t:'choice',stem:'في <span class="qs">مِنْ بَعْدِ</span> ماذا نفعل بالنون؟',
+      parts:['مِ','نْ',' بَعْدِ'],rev:'iqlab',
+      options:['ندغمها في الباء بلا غنة','نقلبها ميمًا ونخفيها مع الغنة','نظهرها من الحلق','نحذفها من النطق'],
+      answer:1,hint:'الباء هي حرف الإقلاب الوحيد، والإقلاب معناه أن نغيّر النون إلى حرف آخر.',
+      explain:'نقلب النون ميمًا ثم نخفيها عند الباء مع غنة، فنقرأ الكلمة قريبة من «مِمْ بَعْدِ».'}
+  ]
+},
+{
+  tab:'المستوى ٢', name:'أُطبّق', sub:'أمثلة قرآنية بلا تعليم، وتلميحات عند الطلب',
+  intro:'ابحث بنفسك عن النون أو التنوين، وانظر إلى الحرف بعده، ثم حدّد الحكم.',
+  blocks:[
+    {t:'sheet',open:false},
+    {t:'h',text:'أُصنّف أمثلة من القرآن الكريم'},
+    {t:'classify',stem:'حدّد حكم النون الساكنة أو التنوين في كل مثال.',options:OPT5,
+      items:[
+        {parts:['مِ','نْ',' نِعْمَةٍ'],ans:'idghamG',hint:'الحرف بعد النون هو النون نفسها، فهل هي من (يَنْمُو)؟',why:'بعد النون نون، والإدغام بغنة عند (ي ن م و).'},
+        {parts:['مِ','نْ',' رَبِّهِمْ'],ans:'idghamN',hint:'الراء من حروف الإدغام، لكن هل معها غنة؟',why:'بعد النون راء، والإدغام عند اللام والراء يكون بغير غنة.'},
+        {parts:['أَ','نْ','عَمْتَ'],ans:'izhar',hint:'حدّد الحرف بعد النون، ثم ارجع إلى حروف الحلق.',why:'بعد النون عين، وهي من حروف الإظهار الحلقي.'},
+        {parts:['سَمِي','عٌ',' بَصِيرٌ'],ans:'iqlab',hint:'الحرف بعد التنوين حرف واحد له حكم واحد.',why:'بعد التنوين باء، فنقلب التنوين ميمًا ونخفيه مع الغنة.'},
+        {parts:['قَوْ','لًا',' سَدِيدًا'],ans:'ikhfa',hint:'السين من الحروف الخمسة عشر التي بقيت بعد الحروف الأخرى.',why:'بعد التنوين سين، وهي من حروف الإخفاء.'},
+        {parts:['هُ','دً','ى لِلْمُتَّقِينَ'],ans:'idghamN',hint:'الحرف بعد التنوين هو اللام.',why:'بعد التنوين لام، والإدغام عندها بغير غنة.'}
+      ]},
+    {t:'h',text:'أُعلّل وأستنتج'},
+    {t:'choice',stem:'ما الفرق بين الإدغام بغنة والإدغام بغير غنة؟',
+      options:['بغنة عند (ل ر)، وبغير غنة عند (ي ن م و)','لا فرق بينهما في النطق','بغنة عند (ي ن م و)، وبغير غنة عند (ل ر)','بغنة عند حروف الحلق، وبغير غنة عند الباء'],
+      answer:2,hint:'كلمة (يَنْمُو) تجمع الحروف التي فيها غنة.',
+      explain:'الإدغام بغنة عند الياء والنون والميم والواو، وبغير غنة عند اللام والراء.'},
+    {t:'choice',stem:'أيّ العبارات الآتية فيها إخفاء؟',
+      options:[{q:'مِنْ خَيْرٍ'},{q:'مِنْ ذَكَرٍ'},{q:'مِنْ وَالٍ'},{q:'مِنْ بَعْدِ'}],
+      answer:1,hint:'انظر إلى الحرف الذي بعد النون في كل عبارة، ثم صنّفه.',
+      explain:'الذال من حروف الإخفاء. أما «مِنْ خَيْرٍ» فإظهار، و«مِنْ وَالٍ» إدغام بغنة، و«مِنْ بَعْدِ» إقلاب.'},
+    {t:'choice',stem:'لماذا يكون حكم <span class="qs">أَنْعَمْتَ</span> إظهارًا؟',
+      options:['لأن النون مشدّدة','لأن بعد النون حرف العين، وهو من حروف الإظهار','لأن بعد النون حرف الباء','لأن الكلمة تنتهي بتاء'],
+      answer:1,hint:'الحكم يتحدد بالحرف الذي بعد النون، وليس بآخر الكلمة.',
+      explain:'العين من حروف الإظهار الحلقي، فتُنطق النون واضحة. ويجوز الإظهار داخل الكلمة الواحدة عند حروف الحلق.'},
+    {t:'choice',stem:'كم عدد حروف الإخفاء؟',
+      options:['ستة','أربعة عشر','خمسة عشر','واحد'],
+      answer:2,hint:'عدد حروف الهجاء ٢٨، والإظهار ٦، والإدغام ٦، والإقلاب ١.',
+      explain:'٢٨ − (٦ + ٦ + ١) = ١٥ حرفًا، وقد جمعها العلماء في أوائل كلمات: صِفْ ذَا ثَنَا كَمْ جَادَ شَخْصٌ قَدْ سَمَا دُمْ طَيِّبًا زِدْ فِي تُقًى ضَعْ ظَالِمَا.'}
+  ]
+},
+{
+  tab:'المستوى ٣', name:'أتحدّى', sub:'تحليل آيات، وتعليل، وشرح بأسلوبي',
+  intro:'حلّل مواضع من سورة الزلزلة، وعلّل الأحكام والاستثناءات، ثم اشرح بأسلوبك وقارن إجابتك بالنموذج.',
+  blocks:[
+    {t:'h',text:'أحلّل مواضع من سورة الزلزلة'},
+    {t:'classify',stem:'حدّد الحكم في كل موضع. لاحظ هل النون والحرف التالي في كلمة واحدة أم كلمتين.',options:OPT5,
+      items:[
+        {parts:['الْإِ','نْ','سَانُ'],src:'من الآية ٣',ans:'ikhfa',hint:'النون هنا داخل الكلمة، والحرف بعدها السين.',why:'النون ساكنة داخل الكلمة وبعدها سين، فحكمها إخفاء.'},
+        {parts:['يَوْمَئِ','ذٍ',' يَصْدُرُ'],src:'من الآية ٦',ans:'idghamG',hint:'التنوين على الذال، والحرف بعده ياء في كلمة جديدة.',why:'بعد التنوين ياء في كلمتين: إدغام بغنة.'},
+        {parts:['أَشْتَا','تًا',' لِيُرَوْا'],src:'من الآية ٦',ans:'idghamN',hint:'الحرف بعد التنوين هو اللام.',why:'بعد التنوين لام: إدغام بغير غنة.'},
+        {parts:['ذَرَّ','ةٍ',' خَيْرًا'],src:'من الآية ٧',ans:'izhar',hint:'الخاء تخرج من الحلق.',why:'بعد التنوين خاء، وهي من حروف الإظهار الحلقي.'},
+        {parts:['ذَرَّ','ةٍ',' شَرًّا'],src:'من الآية ٨',ans:'ikhfa',hint:'الشين ليست من حروف الحلق ولا من (يَرْمَلُونَ).',why:'بعد التنوين شين، وهي من حروف الإخفاء.'}
+      ]},
+    {t:'h',text:'أُعلّل وأتحقق'},
+    {t:'choice',stem:'النون في <span class="qs">الدُّنْيَا</span> و<span class="qs">بُنْيَانٌ</span> تُنطق واضحة مع أن الياء من حروف الإدغام. ما السبب؟',
+      options:['لأن الياء حرف حلقي','لأن النون والياء في كلمة واحدة، ويسمى ذلك الإظهار المطلق','لأن الغنة تسقط دائمًا عند الياء','لأن الكلمتين مبنيتان للمجهول'],
+      answer:1,hint:'من شروط الإدغام أن يكون الحرفان في كلمتين.',
+      explain:'إذا اجتمعت النون الساكنة وأحد حروف (يَرْمَلُونَ) في كلمة واحدة أُظهرت النون. ومن أمثلته: دُنْيَا، صِنْوَانٌ، قِنْوَانٌ، بُنْيَانٌ.'},
+    {t:'choice',stem:'ما القاسم المشترك بين الإقلاب والإخفاء؟',
+      options:['في كلٍّ منهما غنة','في كلٍّ منهما تُقلب النون ميمًا','في كلٍّ منهما تُدغم النون','حروفهما من الحلق'],
+      answer:0,hint:'فكّر في ما يُسمع من الأنف عند النطق بهما.',
+      explain:'الغنة ظاهرة فيهما: في الإقلاب تصير النون ميمًا مخفاة، وفي الإخفاء تبقى نونًا مخفاة.'},
+    {t:'choice',stem:'لماذا سُمّي الإظهار «حلقيًّا»؟',
+      options:['لأن الغنة تخرج من الحلق','لأنه يأتي في آخر الآية','لأن حروفه الستة تخرج من الحلق','لأن النون تُحذف عند الحلق'],
+      answer:2,hint:'التسمية مأخوذة من مخرج الحروف الستة.',
+      explain:'النون تخرج من طرف اللسان، وحروف الحلق بعيدة عن مخرجها؛ فلا يمكن إدغامها فيها ولا إخفاؤها، فتُظهر النون.'},
+    {t:'choice',stem:'أيّ العبارات الآتية ليس فيها حكم من أحكام النون الساكنة والتنوين؟',
+      options:[{q:'مِنْ بَعْدِ'},{q:'سَمِيعٌ عَلِيمٌ'},{q:'إِنَّ رَبَّكَ'},{q:'مِنْ خَيْرٍ'}],
+      answer:2,hint:'ابحث عن النون التي عليها شدّة؛ فهي ليست ساكنة.',
+      explain:'في «إِنَّ» نون مشدّدة متحركة، وحكمها الغنة، وليست نونًا ساكنة ولا تنوينًا.'},
+    {t:'h',text:'أشرح بأسلوبي'},
+    {t:'reflect',stem:'اكتب مثالًا لكل حكم من الأحكام الأربعة (الإظهار، الإدغام، الإقلاب، الإخفاء)، وحدّد الحرف الذي جاء بعد النون أو التنوين.',
+      model:'<ul><li>الإظهار: <span class="qs">مَنْ آمَنَ</span> (الحرف بعد النون: الهمزة).</li><li>الإدغام: <span class="qs">مَنْ يَقُولُ</span> (الياء)، أو <span class="qs">مِنْ رَبِّهِمْ</span> (الراء).</li><li>الإقلاب: <span class="qs">مِنْ بَعْدِ</span> (الباء).</li><li>الإخفاء: <span class="qs">مِنْ قَبْلُ</span> (القاف).</li></ul>',
+      tip:'قد تختلف أمثلتك عن النموذج، وهذا طبيعي. المهم أن يكون الحرف الذي بعد النون من حروف الحكم الذي اخترته.'},
+    {t:'reflect',stem:'اشرح لزميلك في جملتين الفرق بين الإدغام بغنة والإدغام بغير غنة، ومثّل لكل منهما.',
+      model:'<p>الإدغام بغنة يكون عند أحد الحروف (ي ن م و)، فتدخل النون في الحرف الذي بعدها مع بقاء صوت الغنة، مثل: <span class="qs">مَنْ يَقُولُ</span>. والإدغام بغير غنة يكون عند اللام والراء، فتذهب النون تمامًا دون غنة، مثل: <span class="qs">مِنْ رَبِّهِمْ</span>.</p>',
+      tip:'تحقق من أن إجابتك ذكرت الحروف، وذكرت الغنة، وتضمنت مثالين.'}
+  ]
+}
+];
+
+/* ---------- الحالة ---------- */
+var state=LEVELS.map(function(){return new Set();});
+function total(li){
+  var n=0;
+  LEVELS[li].blocks.forEach(function(b){
+    if(b.t==='choice'||b.t==='reflect') n++;
+    else if(b.t==='classify') n+=b.items.length;
+  });
+  return n;
+}
+function opt(o){return typeof o==='string'?o:'<span class="qs">'+o.q+'</span>';}
+function phrase(p,marked){return p[0]+'<span class="hit'+(marked?' mark':'')+'">'+p[1]+'</span>'+p[2];}
+
+/* ---------- بناء المحتوى ---------- */
+function guideHTML(){
+  return '<div class="guide"><h3>كيف أحلّل الكلمة؟</h3><ol>'+
+    '<li>أبحث عن نون ساكنة (نْ) أو تنوين (ـً ـٌ ـٍ).</li>'+
+    '<li>أنظر إلى الحرف الذي يأتي بعدها مباشرة.</li>'+
+    '<li>أرجع إلى ورقة الحروف وأحدّد الحكم.</li></ol></div>';
+}
+function sheetHTML(open){
+  var h='<details class="sheet"'+(open?' open':'')+'><summary>ورقة الحروف</summary><div class="srows">';
+  ORDER.forEach(function(k){
+    var r=RULES[k];
+    h+='<div class="srow" style="--c:var(--'+k+')"><span class="badge">'+r.name+'</span><span class="lt">'+r.letters+'</span><span class="mn">'+r.mn+'</span></div>';
+  });
+  return h+'</div></details>';
+}
+function choiceHTML(li,bi,b,n){
+  var h='<article class="q" data-l="'+li+'" data-b="'+bi+'" data-u="'+li+':'+bi+'">'+
+    '<div class="qhead"><span class="qn">'+num(n)+'</span><p class="stem">'+b.stem+'</p></div>';
+  if(b.parts) h+='<p class="quran">'+phrase(b.parts,li===0)+'</p>';
+  h+='<div class="opts" role="group">';
+  b.options.forEach(function(o,i){h+='<button type="button" class="opt" data-i="'+i+'">'+opt(o)+'</button>';});
+  h+='</div><button type="button" class="linkbtn hintbtn">أحتاج تلميحًا</button>'+
+     '<p class="hint" hidden>'+b.hint+'</p><p class="fb" role="status" aria-live="polite"></p></article>';
+  return h;
+}
+function classifyHTML(li,bi,b,n){
+  var h='<article class="q" data-l="'+li+'" data-b="'+bi+'"><div class="qhead"><span class="qn">'+num(n)+'</span><p class="stem">'+b.stem+'</p></div><div class="rows">';
+  b.items.forEach(function(it,k){
+    h+='<div class="row" data-u="'+li+':'+bi+':'+k+'" data-k="'+k+'">'+
+      '<p class="quran">'+phrase(it.parts,li===0)+'</p>'+(it.src?'<p class="src">'+it.src+'</p>':'')+
+      '<div class="chips" role="group">';
+    b.options.forEach(function(o){h+='<button type="button" class="chip" data-key="'+o.key+'">'+o.label+'</button>';});
+    h+='</div><button type="button" class="linkbtn hintbtn">أحتاج تلميحًا</button><p class="hint" hidden>'+it.hint+'</p>'+
+       '<p class="fb" role="status" aria-live="polite"></p></div>';
+  });
+  return h+'</div></article>';
+}
+function reflectHTML(li,bi,b,n){
+  return '<article class="q" data-l="'+li+'" data-b="'+bi+'" data-u="'+li+':'+bi+'">'+
+    '<div class="qhead"><span class="qn">'+num(n)+'</span><p class="stem">'+b.stem+'</p></div>'+
+    '<textarea class="ans" rows="4" placeholder="اكتب إجابتك هنا" aria-label="إجابتك"></textarea>'+
+    '<button type="button" class="btn cmp">أقارن إجابتي بالنموذج</button>'+
+    '<div class="model" hidden><h4>الإجابة النموذجية</h4>'+b.model+'<p>'+b.tip+'</p></div>'+
+    '<p class="fb" role="status" aria-live="polite"></p></article>';
+}
+function panelHTML(li){
+  var L=LEVELS[li], n=0;
+  var h='<div class="intro"><p>'+L.intro+'</p><p class="score">أنجزتُ <strong data-score>'+num(state[li].size)+'</strong> من '+num(total(li))+'</p></div>';
+  L.blocks.forEach(function(b,bi){
+    if(b.t==='guide') h+=guideHTML();
+    else if(b.t==='sheet') h+=sheetHTML(b.open);
+    else if(b.t==='h') h+='<h3 class="sec">'+b.text+'</h3>';
+    else if(b.t==='choice'){n++;h+=choiceHTML(li,bi,b,n);}
+    else if(b.t==='classify'){n++;h+=classifyHTML(li,bi,b,n);}
+    else if(b.t==='reflect'){n++;h+=reflectHTML(li,bi,b,n);}
+  });
+  var last=li===LEVELS.length-1;
+  h+='<div class="finish" hidden><p>'+(last?'أحسنت! أنجزت ورقة العمل كاملة. أنت جاهز للاختبار القصير.':'أحسنت! أنجزت هذا المستوى.')+'</p>'+
+     (last?'':'<button type="button" class="btn next" data-to="'+(li+1)+'">انتقل إلى «'+LEVELS[li+1].name+'»</button>')+'</div>'+
+     '<div class="foot"><button type="button" class="btn ghost reset" data-l="'+li+'">أعد هذا المستوى من البداية</button></div>';
+  return h;
+}
+
+/* ---------- التقدم ---------- */
+function refresh(){
+  LEVELS.forEach(function(L,li){
+    var t=total(li), d=state[li].size;
+    $('#tab'+li+' .bar i').style.width=(t?d/t*100:0)+'%';
+    $('#tab'+li+' .cnt').textContent=num(d)+'/'+num(t);
+    var p=$('#p'+li);
+    $('[data-score]',p).textContent=num(d);
+    $('.finish',p).hidden=d<t;
+  });
+}
+function complete(li,uid){state[li].add(uid);refresh();}
+
+/* ---------- الأحداث ---------- */
+function onOpt(t){
+  var q=t.closest('.q'), li=+q.dataset.l, bi=+q.dataset.b, b=LEVELS[li].blocks[bi];
+  var fb=$('.fb',q), i=+t.dataset.i;
+  if(i===b.answer){
+    t.classList.add('correct');
+    $$('.opt',q).forEach(function(o){o.disabled=true;});
+    q.classList.add('solved');
+    if(b.rev) q.style.setProperty('--c','var(--'+b.rev+')');
+    fb.className='fb ok'; fb.innerHTML='<strong>أحسنت.</strong> <span>'+b.explain+'</span>';
+    complete(li,q.dataset.u);
+  }else{
+    t.classList.add('wrong'); t.disabled=true;
+    fb.className='fb no'; fb.textContent='ليست هذه الإجابة. حاول مرة أخرى.';
+    if(li===0) $('.hint',q).hidden=false;
+  }
+}
+function onChip(t){
+  var row=t.closest('.row'), q=t.closest('.q'), li=+q.dataset.l, bi=+q.dataset.b;
+  var b=LEVELS[li].blocks[bi], it=b.items[+row.dataset.k], fb=$('.fb',row);
+  if(t.dataset.key===it.ans){
+    row.style.setProperty('--c','var(--'+it.ans+')');
+    row.classList.add('solved'); t.classList.add('correct');
+    $$('.chip',row).forEach(function(c){c.disabled=true;});
+    fb.className='fb ok'; fb.innerHTML='<strong>أحسنت.</strong> <span>'+it.why+'</span>';
+    complete(li,row.dataset.u);
+  }else{
+    t.classList.add('wrong'); t.disabled=true;
+    fb.className='fb no'; fb.textContent='ليست هذه الإجابة. حاول مرة أخرى.';
+    if(li===0) $('.hint',row).hidden=false;
+  }
+}
+function onHint(t){
+  var scope=t.closest('.row')||t.closest('.q'), h=$('.hint',scope);
+  h.hidden=!h.hidden;
+}
+function onCompare(t){
+  var q=t.closest('.q'), li=+q.dataset.l, ta=$('textarea',q), fb=$('.fb',q);
+  if(ta.value.trim().length<4){
+    fb.className='fb no'; fb.textContent='اكتب إجابتك أولًا، ثم قارنها بالنموذج.';
+    ta.focus(); return;
+  }
+  $('.model',q).hidden=false; ta.readOnly=true; t.disabled=true;
+  fb.className='fb ok'; fb.innerHTML='<strong>أحسنت.</strong> <span>قارن ما كتبته بالنموذج وعدّل إجابتك إذا لزم.</span>';
+  complete(li,q.dataset.u);
+}
+function onReset(t){
+  var li=+t.dataset.l;
+  state[li].clear();
+  $('#p'+li).innerHTML=panelHTML(li);
+  refresh();
+}
+document.addEventListener('click',function(e){
+  var t=e.target.closest('button'); if(!t) return;
+  if(t.classList.contains('opt')) onOpt(t);
+  else if(t.classList.contains('chip')) onChip(t);
+  else if(t.classList.contains('hintbtn')) onHint(t);
+  else if(t.classList.contains('cmp')) onCompare(t);
+  else if(t.classList.contains('reset')) onReset(t);
+  else if(t.classList.contains('next')) selectLevel(+t.dataset.to,true);
+});
+
+/* ---------- التبويبات ---------- */
+function selectLevel(li,scroll){
+  LEVELS.forEach(function(L,i){
+    var tab=$('#tab'+i);
+    tab.setAttribute('aria-selected',i===li?'true':'false');
+    tab.tabIndex=i===li?0:-1;
+    $('#p'+i).hidden=i!==li;
+  });
+  if(scroll){
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    $('#levels').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+  }
+}
+function buildTabs(){
+  var nav=$('#levels'), panels=$('#panels'), h='', ph='';
+  LEVELS.forEach(function(L,li){
+    h+='<button type="button" role="tab" class="tab" id="tab'+li+'" aria-controls="p'+li+'" aria-selected="false">'+
+      '<span class="lv">'+L.tab+'</span><span class="tn">'+L.name+'</span><span class="ts">'+L.sub+'</span>'+
+      '<span class="meter"><span class="bar"><i></i></span><span class="cnt"></span></span></button>';
+    ph+='<section class="panel" role="tabpanel" id="p'+li+'" aria-labelledby="tab'+li+'" hidden>'+panelHTML(li)+'</section>';
+  });
+  nav.innerHTML=h; panels.innerHTML=ph;
+  $$('.tab',nav).forEach(function(tab,i){
+    tab.addEventListener('click',function(){selectLevel(i,false);});
+    tab.addEventListener('keydown',function(e){
+      var n=LEVELS.length, to=null;
+      if(e.key==='ArrowLeft') to=(i+1)%n;
+      if(e.key==='ArrowRight') to=(i-1+n)%n;
+      if(to!==null){e.preventDefault();selectLevel(to,false);$('#tab'+to).focus();}
+    });
+  });
+}
+
+/* ---------- مختبر الحروف ---------- */
+function buildLab(){
+  var keys=$('#keys'), h='';
+  LETTERS.forEach(function(l){
+    h+='<button type="button" class="key g-'+LETTER_RULE[l]+'" data-l="'+l+'" aria-pressed="false" aria-label="الحرف '+l+'">'+l+'</button>';
+  });
+  keys.innerHTML=h;
+  $('#legend').innerHTML=ORDER.map(function(k){
+    return '<li style="--kc:var(--'+k+')"><i></i>'+RULES[k].name+'</li>';
+  }).join('');
+  keys.addEventListener('click',function(e){
+    var b=e.target.closest('.key'); if(b) pick(b.dataset.l);
+  });
+  pick('ب');
+}
+function pick(l){
+  var k=LETTER_RULE[l], r=RULES[k];
+  $$('.key').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.l===l?'true':'false');});
+  $('#lab').style.setProperty('--c','var(--'+k+')');
+  $('#chosen').textContent=l;
+  var ex=r.ex.map(function(p){return '<span class="ex">'+phrase(p,false).replace('class="hit"','class="hit" style="color:var(--c);font-weight:700"')+'</span>';}).join('');
+  $('#verdict').innerHTML='<h3>'+r.name+'</h3><p>'+r.how+'</p>'+(r.note?'<p class="note">'+r.note+'</p>':'')+'<div class="examples">'+ex+'</div>';
+}
+
+buildTabs();
+buildLab();
+selectLevel(0,false);
+refresh();
+})();
+</script>
+</body>
+</html>
